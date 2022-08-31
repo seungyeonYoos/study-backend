@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>백엔드수업</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+        integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+<body>
+    <div>폼 전송 - 실습</div>
+    <form method="get" action="/get">
+        <!-- 액션이 무슨뜻이라고 햇더라 -->
+        <span>이름</span><input type="text" name="name"><br>
+        <span>성별</span><input type="radio" name="gender" value="남"> 남자
+        <input type="radio" name="gender" value="여"> 여자<br>
+        <span>생년월일</span>
+
+        <select name="birthYear">
+            <% for(var i=1950; i <=2022; i++) { %>
+                <option value="<%=i%>">
+                    <%=i%>년
+                </option>
+                <% } %>
+        </select>년
+        <select name="birthMonth">
+            <% for(var i=1; i <=12; i++) { %>
+                <option value="<%=i%>">
+                    <%=i%>월
+                </option>
+                <% } %>
+        </select>월
+        <select name="birthDay">
+            <% for(var i=1; i <=30; i++) { %>
+                <option value="<%=i%>">
+                    <%=i%>일
+                </option>
+                <% } %>
+        </select>일<br>
+
+
+        관심사<input type="checkbox" name="fav" value="여행">여행
+        <input type="checkbox" name="fav" value="패션">패션
+        <input type="checkbox" name="fav" value="요리">요리
+        <br>
+
+        <!-- <input type="text" name="gender"> -->
+        <button type="button" onclick="dynamic();">회원가입</button> <!-- 서브밋은 무조건 다른페이지로의 이동이 일어남 액션이 없었으면 그냥 새로고침이 됐을거-->
+        <!-- <button type="reset">리셋</button> 엥 ? 인풋이랑 어떻게 연결이 되어있는거 -->
+        <div>로그인 실패</div>
+
+    </form>
+
+    <script>
+
+        function dynamic() {
+            var fav = "";
+            $("input[name=fav]:checked").each((index, object) => {
+                fav += $(object).val();
+                if (index != $("input[name=fav]:checked").length - 1) fav += ",";
+            })
+
+            var form = document.querySelector("form"); //이 코드 모르면 안댐
+            var data = {
+                name: form.name.value, //폼자식 중 네임을 선택 그 밸류를 가져오겠다
+                gender: form.gender.value,
+                birthYear: form.birthYear.value,
+                birthMonth: form.birthMonth.value,
+                birthDay: form.birthDay.value,
+                fav: fav,
+            }
+
+            axios({
+                url: "/get/axios",
+                method: "get",
+                params: data,
+                timeout: 3000,
+            }).then((resopanse) => { //이함수를 제대로 실행 시키면 then으로 가고
+                console.log(resopanse); //resopanse만 치면 모든 정보가 다 드러옴
+                console.log(resopanse.data);
+            }).catch((err => {console.log("err")}))//이 함수를 제대로 실행 시키지 못하면 catch로감
+        }
+
+    </script>
+
+</body>
+
+</html>

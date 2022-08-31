@@ -1,0 +1,35 @@
+const express = require("express");
+const app = express();
+
+app.set("view engine","ejs");
+app.use( "/static", express.static("static") );
+
+const port = 8000;
+// ip:8000/
+app.get("/", (req,res)=>{
+    res.render("test");
+})
+
+// ip:8000/testone
+app.get("/testone", (req,res)=>{
+    res.render("testone");
+})
+app.get("/test1웹브라우저에서 적을 문자열", (req,res)=>{
+    res.render("test1ㄹㅇ존재하는파일");
+})
+app.get("/test2", (req,res)=>{
+    res.render("test2");
+})
+
+app.listen(port서버를 열었을때 , ()=>{
+    console.log("server open: 마지막에 써야하는 서버여는거 무조건 우리가 서버를 열었을때 할 행동", port);
+})
+<%="<img>" %> 태그를 태그로 인식 x 태그 잇어도 문자열로 출력
+<%-"~~~" %> 태그로 인식
+
+<%-include("test1.ejs")%>
+
+
+// function(req,res) {} res - 서버가 클라이언트에게 보내는 응답
+// req 
+// ()=>{}
