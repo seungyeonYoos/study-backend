@@ -11,11 +11,9 @@
 <body>
 
     <form>
-        <!-- 액션이 무슨뜻이라고 햇더라 -->
         <span>아이디</span><input type="text" name="name"><br>
         <span>패스워드</span><input type="password" name="password"><br>
         <button type="button" onclick="dynamic();">로그인</button>
-
     </form>
     <div>
 
@@ -32,9 +30,15 @@
             url: "/get/axios",
             method: "post",
             data: data
-           }).then((resopanse)=>{
-            console.log(resopanse);
-            console.log(resopanse.data); //resopanse만 치면 모든 정보가 다 드러옴
+           }).then((resoponse)=>{
+            if(resoponse.data.result == "로그인성공") {
+                $('div').html('<div>로그인성공</div>')
+            }
+            else{
+                $('div').html('<div>로그인실패</div>')
+            }
+           
+                
            })
         }
 

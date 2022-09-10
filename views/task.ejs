@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>MVP MySQL</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        .d_none {
+            display: none;
+        }
+        td {
+         width: 150px;   
+        }
+        input {
+            width: 140px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="form_login">
+        <fieldset>
+            <legend>로그인</legend>
+            아이디 : <input type="text" name="id" placeholder="아이디"><br>
+            비밀번호 : <input type="password" name="password" placeholder="비밀번호"><br>
+            <button type="button" id="login" onclick="login1();">로그인</button>
+            <button type="button" id="sign_up" onclick="signup1()">회원가입</button>
+        </fieldset>
+    </form>
+    <form id="form_signup" class="d_none">
+        <fieldset>
+            <legend>회원가입</legend>
+            이름 : <input type="text" name="name" placeholder="이름" required><br>
+            아이디 : <input type="text" name="id" placeholder="아이디" required><br>
+            비밀번호 : <input type="password" name="password" placeholder="비밀번호" required><br>
+            <button type="button" id="sign_up" onclick="signup()">회원가입</button>
+            <button type="button" id="sign_up_cancel" onclick="signup_cancel()">취소</button>
+        </fieldset>
+    </form>
+    
+        <table id="inform" class="d_none">
+            <tr>
+                <td>ID</td>
+                <td>이름</td>
+                <td>패스워드</td>
+                <td>수정</td>
+                <td>삭제</td>
+            </tr>
+        </table>
+
+
+    <script>
+        // 
+        function signup1(){
+            $("#form_signup").removeClass("d_none");
+        }
+        function signup(){
+            var form = document.getElementById("form_signup");
+            var data = {
+                name: form.name.value,
+                id: form.id.value,
+                password: form.password.value
+            }
+            axios({
+                url: "/task/post",
+                method: "post",
+                data: data
+            }).then((response)=>{
+                console.log(response.data);
+                alert(response.data);
+                $("#form_signup").addClass("d_none");
+            })
+        }
+
+        function login1() {
+            var form = document.getElementById("form_login");
+            var data = {
+                id: form.id.value,
+                password: form.password.value
+            }
+            axios ({
+                url: "/login/post",
+                method: "post",
+                data: data
+            }).then((response) => {
+                console.log("response.data:", response.data);
+
+                if(response.data == "0"){
+                    alert("로그인실패");
+                    $('#form_login')[0].reset();
+                }
+                else {
+                    alert("로그인성공");
+                    $("#form_login").addClass("d_none");
+                    $("#inform").removeClass("d_none");
+                    $("#inform").append(`
+                    <tr>
+                        <td id="one"><div>${response.data.id}</div></td>
+                        <td id="two"><div>${response.data.name}</div></td>
+                        <td id="three"><div>${response.data.password}</div></td>
+                        <td><button type="button" onclick="modify();">수정</button></td>
+                        <td><button type="button" onclick="delete_inform('${response.data.id}',this);">삭제</button></td>
+                    </tr>
+                    `);
+                }
+            })
+        }
+        function modify(){
+                var name=$("#two > div").text();
+                var password=$("#three > div").text();
+                $("#two").append(`<input type="text" id="hi" value=${name}>`);
+                $("#three").append(`<input type="text" id="hi" value=${password}>`);
+                $("#two > div , #three > div").addClass("d_none");
+        }    
+        function check(){}
+        function delete_inform(id, obj){
+            axios({
+                url: "/task/delete",
+                method: "post",
+                data: {id: id}
+            }).then((response)=>{
+                console.log(response.data);
+                $(obj.parentElement.parentElement).remove();
+            })
+        }
+        
+    </script>
+
+</body>
+
+</html>

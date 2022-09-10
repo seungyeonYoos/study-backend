@@ -11,25 +11,38 @@
 <body>
 
     <form>
-        <input type="file" name="userfile" id="file">
-        <input type="text" name="name">
+        아이디<input type="text" name="id"><br>
+        패스워드<input type="password" name="password"><br>
+        이름<input type="text" name="name"><br>
+        나이<input type="text" name="age"><br>
+        <input type="file" name="userfile" id="file"><br>
         <button type="button" onclick="fileUpload();">업로드</button>
+        <button type="reset">리셋</button>
     </form>
+    <div>
 
+    </div>
     <script>
         function fileUpload () {
             const formData = new FormData();
+            const form = document.querySelector('form');
+            const div = document.querySelector('div');
             const file = document.getElementById("file"); //위에 인풋태그의 파일을 담아주는거
-            formData.append("userfile",file.files[0]); //앞에 네임값 뒤에는 우리가 넣고자하는값
-            axios({
+            formData.append("id", form.id.value);
+            formData.append("userfile",file.files[0],'id.jpg') //앞에 네임값 뒤에는 우리가 넣고자하는값
+            axios ({
                 headers: { //파일업로드를할때 
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type" : "multipart/form-data"
                 },
                 url: "/upload",
                 method: "post",
-                data: formData,
+                data: formData
+            }).then((Response)=>{
+                console.log(Response.data);
+                const img = document.createElement('img');
+                img.src = `uploads/${Response.data}`;
+                div.append(img);
             })
-            .then((Response) => {console.log(Response.data) });
         }
     </script>
 

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>백엔드수업</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+
+    <script>
+
+        // function go_con(){
+        //     console.log("편의점에 가서 어떤 음료를 살지 고민한다");
+        // }
+
+        // function pick( ){
+        //     return new Promise(function(resolve, reject){
+        //         setTimeout(function(){
+                
+        //             console.log("고민 끝");
+        //             product = "콜라";
+        //             payment = 1500; 
+        //             resolve();
+        //         }, 3000);
+        //     });
+        // }
+
+        // var product;
+        // var payment;
+        // go_con();
+        // pick()
+        // .then(function(){
+        //     console.log(`${product}의 금액인 ${payment}원을 지불한다`);
+        // })
+        // // .catch(function(){
+        //     console.log("실패");
+        // })
+
+
+
+        function call(name){ 
+            return new Promise(function(resolve, reject){
+                setTimeout( function(){
+                resolve(name);
+                }, 1000 );
+            })  
+        } 
+
+        function back(txt){ 
+            return new Promise(function(resolve, reject){
+                setTimeout( function() { 
+                var txt = "back"
+                resolve(txt); 
+                }, 1000 );
+            }) 
+        } 
+        function hell( massege ){ 
+            return new Promise(function(resolve, reject){
+                setTimeout( function() { 
+                var message = "callbackhell"
+                resolve(message);
+                }, 1000 );
+            })  
+        } 
+
+        // call()
+        // .then(function(result){
+        //     console.log(result);
+        //     return back();
+        // })
+        // .then(function(result){
+        //     console.log(result);
+        //     return hell();
+        // })
+        // .then(function(result){
+        //     console.log(result);
+        // })
+
+        async function exec(){
+            let name = await call("kim");
+            console.log(name+"님 환영합니다.");
+            let back1 = await back();
+            console.log(back1+"을 실행했구나");
+            let callbackhell =await hell();
+            console.log("여기는"+callbackhell);
+        }
+
+        exec();
+        
+
+    </script>
+
+
+
+</body>
+
+</html>

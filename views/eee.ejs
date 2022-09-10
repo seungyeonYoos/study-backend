@@ -11,16 +11,10 @@
 <body>
 
     <form action="/upload" method="post" enctype="multipart/form-data">
-        아이디<input type="text" name="id"><br>
-        패스워드<input type="password" name="password"><br>
-        이름<input type="text" name="name"><br>
-        나이<input type="text" name="age"><br>
-        <input type="file" name="userfile" id="file"><br>
+        <input type="file" name="userfile" multiple>
+        <input type="text" name="userfile">
         <button type="submit">업로드</button>
-        <button type="reset">리셋</button>
     </form>
-
-
 
 </body>
 
