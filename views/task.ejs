@@ -101,7 +101,7 @@
                         <td id="one"><div>${response.data.id}</div></td>
                         <td id="two"><div>${response.data.name}</div></td>
                         <td id="three"><div>${response.data.password}</div></td>
-                        <td><button type="button" onclick="modify();">수정</button></td>
+                        <td><button type="button" onclick="modify();" id="modify">수정</button></td>
                         <td><button type="button" onclick="delete_inform('${response.data.id}',this);">삭제</button></td>
                     </tr>
                     `);
@@ -114,6 +114,10 @@
                 $("#two").append(`<input type="text" id="hi" value=${name}>`);
                 $("#three").append(`<input type="text" id="hi" value=${password}>`);
                 $("#two > div , #three > div").addClass("d_none");
+                document.querySelector('#modify').setAttribute("id", "#afterModify");
+
+
+
         }    
         function check(){}
         function delete_inform(id, obj){
@@ -126,7 +130,7 @@
                 $(obj.parentElement.parentElement).remove();
             })
         }
-        
+
     </script>
 
 </body>
